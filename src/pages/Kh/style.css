@@ -1,0 +1,15 @@
+table{margin-top: 15px}
+table th,table td{font-size: 16px;border-bottom: 1px solid #d9d9d9}
+table th div{text-align: center}
+table td span{display: flex;justify-content: center}
+.ant-table-tbody>tr>td{text-align: center;padding: 16px}
+.ant-tag{margin-left: 5px;border: 1px solid #d9d9d9;height: 22px;line-height: 20px;padding: 0 7px;border-radius:5px}
+.ant-tag-blue{color: #1890ff;background: #e6f7ff;border-color: #91d5ff}
+.ant-table-pagination{display: flex;float: right;margin: 16px 0;margin-right: 50px;}
+.ant-table-pagination .ant-pagination-item{min-width: 25px;border: 1px solid #d9d9d9;margin: 0 3px;text-align:center}
+.ant-pagination-next .ant-pagination-item-link, .ant-pagination-prev .ant-pagination-item-link{border: 1px solid #d9d9d9;min-width: 25px;text-align: center;display: inline-block;}
+.ant-pagination-item-active{border-color: #1890ff;}
+
+.ant-table-selection-column{width: 100px}
+
+.ant-btn-primary{margin-left: 50px;}
