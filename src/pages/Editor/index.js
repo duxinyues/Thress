@@ -1,20 +1,28 @@
 import React,{Component} from 'react';
-import marked from 'marked';
+import Editor from 'for-editor';
+
 class Edit extends Component{
-    render(){
-        return(
-            <div key='header'>
-            sdgdfhbjdfb
-                <input type="text" placeholder="输入文章标题..." spellCheck="false" />
-            </div> ,
-            <div key='main'>
-                <div>
-                    <div contentEditable="plaintext-only"></div>
-                </div>
-                <div>
-                    <div></div>
-                </div>
+    constructor(props){
+        super(props);
+        this.state = {
+            value: ''
+        }
+    }
+    handleChange(value) {
+        this.setState({
+            value
+        });
+        console.log(value)
+    }
+
+    render() {
+        const { value } = this.state
+        return (
+            <div>
+                <Editor value={value} onChange={this.handleChange.bind(this)} />
+                <div>确认</div>
             </div>
+            
         )
     }
 }
