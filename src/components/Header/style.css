@@ -1,7 +1,0 @@
-.Hui-header{height:44px;box-shadow: 0 0 4px #333;width:100%;z-index:99;position:relative; z-index:999;background-color:#222;border-bottom:#080808 1px solid;}
-.Hui-logo,.Hui-logo-m{height:44px; margin-left:15px;cursor:pointer;font-size:16px; font-weight:bold; line-height:44px;color: #fff;}
-.Hui-logo{display:inline-block; padding-right:5px}
-.Hui-logo-m{display:none;width:45px;margin-left:10px;}
-
-.Hui-userbox{ position:absolute; top:8px; right:20px}
-.Hui-nav-toggle{ display:none; position:absolute; top:0px; right:10px; width:44px; height:44px; background:#333 url(../../assets/images/hamburger.gif) no-repeat center}
