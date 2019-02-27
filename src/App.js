@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {Layout,Menu,Icon} from 'antd';
-import {Link} from "react-router-dom";
 import './App.css';
-import logo from "./assets/images/top_logo1.png";
+// import logo from "./assets/images/top_logo1.png";
 const { Header, Sider, Content ,Footer} = Layout;
 const SubMenu = Menu.SubMenu;
 class SiderDemo extends Component {
@@ -36,7 +35,8 @@ class SiderDemo extends Component {
           collapsed={this.state.collapsed}
         >
           <div className="logo">
-            <img src={logo} alt="logo" />
+          
+            {/* <img src={logo} alt="logo" /> */}
           </div>
           <Menu
             mode="inline"
@@ -45,7 +45,7 @@ class SiderDemo extends Component {
             style={{ width: 201 }}
           >
             <SubMenu key="sub1" title={<span><Icon type="mail" /><span>安思利普</span></span>}>
-              <Menu.Item key="1"><Link to="/about">微信号 2</Link></Menu.Item>
+              <Menu.Item key="1">微信号 2</Menu.Item>
               <Menu.Item key="2">微信号 2</Menu.Item>
               <Menu.Item key="3">微信号 3</Menu.Item>
               <Menu.Item key="4">微信号 4</Menu.Item>
@@ -74,11 +74,11 @@ class SiderDemo extends Component {
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }}>
-            <Icon
+            {/* <Icon
               className="trigger"
               type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={this.toggle}
-            />
+            /> */}
           </Header>
           <Content style={{
             margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280,
@@ -87,7 +87,7 @@ class SiderDemo extends Component {
             Content
           </Content>
           <Footer style={{background:'#fff',padding:0}}>
-            版权
+            Wei Sir ©2019 Created by Wei YongYuan 
           </Footer>
         </Layout>
       </Layout>
