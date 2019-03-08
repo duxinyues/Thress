@@ -1,7 +1,6 @@
 /**
  * Create by duxin on 2019/3/7
  */
-
 import React,{Component} from 'react';
 import {Route,Redirect,Switch} from 'react-router-dom';
 import AllComponents from '../components';
@@ -37,12 +36,30 @@ export default class CRouter extends Component{
                             return (
                                 <Route
                                     key={r.route || r.key}
-                                ></Route>
+                                    exact
+                                    path={r.route || r.key}
+                                    render={props=>{
+                                        //匹配？以及其后的字符串
+                                        const reg = /\?\S*/g;
+                                        //除去？参数
+                                        const queryParams = window.location.hash.match(reg); 
+                                        const {params} = props.match;
+                                        Object.keys(params).forEach(key=>{
+                                            params[key] = params[key] && params[key].replace(reg,'');
+                                        });
+                                        props.match.params = {...params};
+                                        const merge = {...props,query:queryParams ? queryString.parse(queryParams[0]):{}}
+                                        onRouterChange && onRouterChange(r);
+                                        return r.login ? <Component {...merge} /> : this.requireLogin(<Component {...merge} />,r.auth)
+                                    }}
+                                />
                             )
                         }
+                        return r.component ? route(r) : r.subs.map(r=> route(r));
                     })
                    )
                }
+               <Route render={()=><Redirect to="/404" />} />
             </Switch>
         )
     }
