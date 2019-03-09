@@ -4,10 +4,10 @@ import {Link} from 'react-router-dom';
 
 const renderMenuItem = item=>(
     <Menu.Item key="item.key">
-        <link to={(item.route || item.key) + (item.query || '')}>
+        <Link to={(item.route || item.key) + (item.query || '')}>
             {item.icon && <Icon type={item.icon} />}
             <span className="nav-text">{item.title}</span>
-        </link>
+        </Link>
     </Menu.Item>
 )
 
