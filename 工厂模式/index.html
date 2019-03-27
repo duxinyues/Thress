@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+<script>
+/*
+    假设这是一个汽车店，多种型号的汽车出售
+ */
+/* $A型号的汽车的服务类型 */
+function $A(){};
+$A.prototype = {
+    //组装
+    assemble:function(){console.log(111)},
+    //清洗
+    wash:function(){},
+    //维修
+    repair:function(){}
+}
+//自己的汽车店
+var CarShop = function(){}
+CarShop.prototype = {
+    carssell:function(model){
+        var cars = this.createCar(model);
+        cars.assemble();
+        cars.wash();
+        return cars;
+    },
+    createCar:function(){
+        throw new Error('NO')
+    }
+}
+
+//两个子类，分别从zh,gy公司进货
+function  extend(subClass,superClass){
+  function F(){}
+
+  F.prototype = superClass.prototype;
+  subClass.prototype = new F();
+  subClass.prototype.constructor = subClass;
+
+  if (superClass.prototype.constructor === Object.prototype.constructor) {
+      superClass.prototype.constructor = superClass;
+  }
+}
+
+//hz class
+var hzCarShop = function(){}
+extend(hzCarShop,CarShop);
+hzCarShop.prototype.createCar = function(model){
+    var car;
+    switch (model) {
+        case 'The A':
+            cars = new $A();
+            break;
+        case 'The B':
+            cars = new $B();
+            break;
+        // 新增加的类型
+        case 'The D':
+            cars = new $D();
+            break;
+        case 'The C':
+        default:
+            cars = new $C()
+    }
+    return cars;
+}
+//gy class
+var gyCarShop = function(){};
+extend(gyCarShop,CarShop);
+gyCarShop.prototype.createCar = function(model){
+    var cars ;
+    switch (model) {
+        case 'The A':
+            cars = new $A();
+            break;
+        case 'The B':
+            cars = new $B();
+            break;
+        // 新增加的类型
+        case 'The D':
+            cars = new $D();
+            break;
+        case 'The C':
+        default:
+            cars = new $C()
+    }
+    return cars;
+};
+
+var californiaCruisers = new hzCarShop();
+var yourNewBike = californiaCruisers.carssell('The A');
+
+
+//XHR
+/*根据浏览器的不同来生成一个XMLhttpRequest或者ActiveXObject实例*/
+
+var AjaxHandler = new Interface('AjaxHandler',['request','createXhrObject']);
+
+var $handler = function(){};
+
+$handler.prototype = {
+    request:function(method,url,callback,postVar){
+        var xhr = this.createXhrObject();
+        xhr.onreadystatechange = function(){
+            if (xhr.readystate !== 4) {
+                return ;
+            }
+            ((xhr.status>=200 && xhr.status<300) || xhr.status === 304 ?callback.success(xhe.responseText,xhr.responseXML) : callback.failure(xhr.status))
+        };
+        xhr.open(method,url,true);
+        if (method !== "POST") {
+            postVar = null;
+        }
+        xhr.send(postVar)
+    },
+    createXhrObject:function(){
+        var methods = [
+            function(){
+                return new XMLHttpRequest();
+            },
+            function(){
+                return new ActiveXObject('MSXML2.XMLHTTP.3.0');
+            },
+            function(){
+                return new ActiveXObject('MSXML.XMLHTTP')
+            },
+            function(){
+                return new ActiveXObject('Microsoft.XMLHTTP')
+            }
+        ];
+        for(var i=0,len=methods.length;i<len;i++){
+            try {
+                methods[i]();
+            } catch (e) {
+                continue;
+            }
+            this.createXhrObject = methods[i];
+            return methods[i]();
+        }
+
+        throw new Error("Handler:Could not create an XHR object.");
+    }
+}
+
+//发起一个请求的过程
+var myHandler = new $handler();
+var callback = {
+    success:function(responseText){
+        alert("Success:"+responseText);
+    },
+    failure:function(statusCode){
+        alert('Failure:'+statusCode)
+    }
+};
+myHandler.request('GET','url',callback);
+
+//专用型连接对象
+function QueueHandler(){
+    this.queue = [];//请求队列 保存
+    this.requestInprogress = false;//请求进程，
+    this.retryDelay = 10;//延迟
+}
+extend(QueueHandler,$handler);
+/**
+    @param override  覆盖请求
+*/
+QueueHandler.prototype.request = function(method,url,callback,postVar,override){
+    if (this.requestInprogress && !override) {
+        //其他请求正在进行，不覆盖
+        this.queue.push({
+            method:method,
+            url:url,
+            callback:callback,
+            postVar:postVar
+        });
+    }else{
+        //没有请求在进行，立即执行该请求，成功后递归
+        this.requestInprogress = true;
+        var xhr = this.createXhrObject();
+        var that = this;
+
+        xhr.onreadystatechange = function(){
+            if (xhr.readystate !== 4) {
+                return;
+            }
+
+            if ((xhr.status >= 200 && xhr.status<300) || xhr.status === 304) {
+                //请求成功
+                callback.success(xhr.responseText,xhr.responseXML);
+
+                that.adanceQueue();
+            }else{
+                callback.failure(xhr.status);
+                setTimeout(() => {
+                    that.request(method,url,callback,postVar,true);
+                }, that.retryDelay*1000);
+            }
+        }
+        xhr.open(method, url, true);
+        if (method !== "POST") {
+            postVar = null;
+        }
+        xhr.send(postVar);
+    }
+}
+
+//处理位于最前队列的请求
+QueueHandler.prototype.adanceQueue = function(){
+    if (this.queue.length === 0) {
+        this.requestInprogress = false;
+        return;
+    }
+    var req = this.queue.shift();
+    this.request(req.method,req.url,req.callback,req.postVar,true);
+};
+
+    
+</script>
+</body>
+</html>
