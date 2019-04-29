@@ -28,7 +28,7 @@
 		factory( global );
 	}
 
-// Pass this if window is not defined yet
+// 如果尚未定义此窗口，则传递此窗口
 } )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
 
 "use strict";
@@ -132,7 +132,7 @@ function toType( obj ) {
 var
 	version = "3.4.0",
 
-	// Define a local copy of jQuery
+	// 定义jQuery的本地副本
 	jQuery = function( selector, context ) {
 
 		// The jQuery object is actually just the init constructor 'enhanced'
