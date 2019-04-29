@@ -1,0 +1,3 @@
+/**
+ * jQuery(selector[,context])
+ */
