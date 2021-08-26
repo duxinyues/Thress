@@ -5,10 +5,7 @@
  * @LastEditors: yongyuan at <yongyuan253015@gmail.com>
  * @Description: 项目主体js文件
  * @FilePath: \nodeJS\app.js
- * 
  */
-
-
 const express = require("express");
 const app = express();
 const arr = [
